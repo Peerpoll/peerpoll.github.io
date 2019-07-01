@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://peerpoll.github.io/</id>
-    <title>Gridea</title>
-    <updated>2019-07-01T12:17:59.300Z</updated>
+    <title>Peer&apos;s blog</title>
+    <updated>2019-07-01T12:30:51.486Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://peerpoll.github.io/"/>
     <link rel="self" href="https://peerpoll.github.io//atom.xml"/>
-    <subtitle>温故而知新</subtitle>
+    <subtitle>书写博客加强学习</subtitle>
     <logo>https://peerpoll.github.io//images/avatar.png</logo>
     <icon>https://peerpoll.github.io//favicon.ico</icon>
-    <rights>All rights reserved 2019, Gridea</rights>
+    <rights>All rights reserved 2019, Peer&apos;s blog</rights>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
         <id>https://peerpoll.github.io//post/hello-gridea</id>
