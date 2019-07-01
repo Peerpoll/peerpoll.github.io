@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>关于 | Peer&#39;s blog</title>
+<title>网页版blast构建 | Peer&#39;s blog</title>
 <meta name="description" content="书写博客加强学习">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -87,19 +87,64 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>关于</h1>
+            <h1>网页版blast构建</h1>
             <p class="article-meta">
-              2019-01-25
+              2019-07-01
+              
+                <a href="https://peerpoll.github.io//tag/KMXqf08oc" class="badge success">
+                  其他
+                </a>
               
             </p>
             
             <div class="post-content">
-              <p>这是关于的页面，可以在这里向世界介绍你！</p>
+              <h5 id="因为构建网站功能需要搭建一个blast功能主要是利用了ncbi提供的blast进行构建-主要工作如下">因为构建网站功能需要搭建一个blast功能，主要是利用了NCBI提供的blast+进行构建。主要工作如下：</h5>
+<h4 id="1下载blast">1.下载blast+</h4>
+<h4 id="blast工具"><a href="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/">blast+工具</a> 下载所需要的版本</h4>
+<h4 id="2根据需要的参数设置网页的界面">2.根据需要的参数设置网页的界面</h4>
+<h4 id="相关的参数详情">相关的参数详情：</h4>
+<blockquote>
+<p>序列输入  =》 -query (file_in) 输入你要查找的序列，将上传的序列文件名放进去，最好是绝对路径
+查询范围  =》 -query_loc (n-x) 需要查找的位置（start-stop） ps:start/stop输入是数字型
+查询类型  =》 -task (string) 选择查询的类型，blastn下有好几种类型&quot;blastn&quot;,&quot;blastn-short&quot;,&quot;megablast&quot;各有优缺
+保留阈值  =》 -evalue 保留匹配的阈值，自己设定，一般默认是10
+匹配长度  =》 -word_size (integer,&gt;=4) 设置最佳匹配长度
+匹配得分  =》 -reward (int,&gt;=0) 匹配上的得分
+错配罚分  =》 -penalty (int,&gt;=0) 错配的罚分
+open gap  =》 -gapopen(int) open gap 分数
+extend gap =》 -gapextend(int) extend gap分数
+筛选    =》 -dust(str) &quot;yes&quot;or&quot;no&quot; 筛选低复杂区域
+结果输出  =》 -outfmt 输出结果格式；我用的是 -6 用&quot;\t&quot;格式分割  -7 用&quot;\t&quot;分割，包含注释；输出还有一些列格式，没怎么用到，所以不赘述
+-6 输出一般是12列
+Queryid（查询id）　　Subject id（比对上的id） 　　identity（配对一致性%）　　alignment length(比对上的区域长度)　　mismatches(错配数)
+gap open　　q.start（匹配上的查询序列起点）　　q.end（匹配上查询序列终点）　　s.start(匹配上目标序列的起点)　　s.end(匹配上目标序列的终点)       e-value　　bitscore(比对上的的得分)</p>
+</blockquote>
+<h4 id="创建自己的基因库">创建自己的基因库</h4>
+<blockquote>
+<p>载入自己的需要的fa数据作为库 blastn 只要nucl库
+命令：makeblastdb.exe -in 基因组genomic.fna -parse_seqids -hash_index -dbtype nucl -out 自定义库名</p>
+</blockquote>
+<h4 id="利用脚本对上传的数据进行处理">利用脚本对上传的数据进行处理</h4>
+<p><strong>我使用的是python脚本，linux上可以直接运行命令</strong></p>
+<pre><code>&quot;&quot;&quot;blastn -query %s  -db %s -out %s -task %s -evalue %d -word_size %d -reward %d -penalty %d -gapopen %d -gapextend %d -dust %s -outfmt 6 &quot;&quot;&quot;%(inname,db,outname,task,evalue,word_size,reward,penalty,gapopen,gapextend,dust)
+</code></pre>
+<h4 id="对获取的结果可以进行美化可以使用blasterjs对结果展示惊醒美化">对获取的结果可以进行美化，可以使用blasterJS对结果展示惊醒美化</h4>
 
             </div>
           </article>
         </div>
         <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://peerpoll.github.io//post/shen-ming">
+                <h3 class="post-title">
+                  申明
+                </h3>
+              </a>
+            </div>
           
         </div>
         
