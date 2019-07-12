@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://peerpoll.github.io/</id>
     <title>Peer&apos;s blog</title>
-    <updated>2019-07-02T00:41:37.357Z</updated>
+    <updated>2019-07-12T01:36:38.383Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://peerpoll.github.io/"/>
     <link rel="self" href="https://peerpoll.github.io//atom.xml"/>
@@ -10,6 +10,101 @@
     <logo>https://peerpoll.github.io//images/avatar.png</logo>
     <icon>https://peerpoll.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Peer&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[python数据处理常使用的模块及介绍]]></title>
+        <id>https://peerpoll.github.io//post/python-shu-ju-chu-li-chang-shi-yong-de-mo-kuai-ji-jie-shao</id>
+        <link href="https://peerpoll.github.io//post/python-shu-ju-chu-li-chang-shi-yong-de-mo-kuai-ji-jie-shao">
+        </link>
+        <updated>2019-07-12T01:24:50.000Z</updated>
+        <content type="html"><![CDATA[<ol>
+<li><strong>numpy</strong> 高效的处理数据、提供数组支持，是许多模块的基础，如：pandas、scipy、matplotlib</li>
+<li><strong>pandas</strong> 主要用于进行数据探索和数据分析</li>
+<li><strong>matplotlib</strong> 用于作图，进行可视化</li>
+<li><strong>scipy</strong> 进行数值计算，支持矩阵运算，还有许多高等数据处理，比如积分、傅里叶变换、微分方程求解</li>
+<li><strong>statsmodels</strong> 主要用于统计分析</li>
+<li><strong>Gensim</strong> 用于文本挖掘</li>
+<li><strong>sklearn</strong> 用于机器学习</li>
+<li><strong>keras</strong> 用于深度学习</li>
+</ol>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[pthon中的正则表达式]]></title>
+        <id>https://peerpoll.github.io//post/pthon-zhong-de-zheng-ze-biao-da-shi</id>
+        <link href="https://peerpoll.github.io//post/pthon-zhong-de-zheng-ze-biao-da-shi">
+        </link>
+        <updated>2019-07-10T02:06:24.000Z</updated>
+        <content type="html"><![CDATA[<p>正则可以用来快速检索文本，实现一些替换文本的操作。</p>
+<pre><code>#正则表达式
+import re
+a='C|C++|Java|C#|Python|Javascript'
+re.findall('Python',a)###findall 直接在字符串中查找所有关键字
+
+##使用规则查找关键词，规则是正则表达式的灵魂
+b='C0C++7Java8C#9Python3Javascript'
+##查找其中的数字
+r=re.findall(&quot;\d&quot;,b)###\d 查找数字
+print(r)
+#'Python'是普通字符  '\d'是元字符
+#元字符根据使用可以现查现用
+print(re.findall(&quot;\D&quot;,b)) ###\D查找非数字字符
+
+s='abc,acc,adc,aec,afc,ahc'
+print(re.findall('a[cf]c',s))### 使用[]实现或操作
+print(re.findall('a[^cf]c',s)) ###使用^实现 取反 非  操作
+print(re.findall('a[c-f]c',s))  ###实现取一系列字符操作
+
+#概括字符集
+#\d \D \w 单词字符 [A-Za-z0-9_]   \W  匹配非单词字符
+#\s 空白字符 “ ” \t \n 
+#. 换行符之外的所有字符
+
+#数量词
+print(re.findall('[a-z]{3,6}',s))  ##{n,m} 匹配n-m个字符 
+m='pytho0python1pythonn2'
+#* 匹配*号前的字符 0次或者无限多次
+print(re.findall('python*',m))
+#+ 匹配+号前的字符 1次或者无限多次
+print(re.findall('python+',m))
+#? 匹配？号前的字符 0次或者1次
+print(re.findall('python?',m))
+
+
+#贪婪和非贪婪
+#贪婪就是一直匹配到不满足条件的字符
+#非贪婪  在匹配字符后加?
+print(re.findall('[a-z]{3,6}?',s))
+
+#边界匹配
+qq='1035655101'
+#4~8
+print(re.findall('^\d{4,8}$',qq))  ###匹配规则前加^规则后加$ 进行完全匹配   ^字符固定起始  $字符固定结尾
+x='pythonpythonpythonpythonss'
+print(re.findall('(python){2}',x)) ###查找一个完整的字符多次 ()表示并且
+
+###findall中的flags参数  
+### re.I 可以不区分大小写匹配
+lan='PythonC#\nJavaPHP'
+print(re.findall('c#',lan,re.I))   ### re.I 可以不区分大小写匹配  
+print(re.findall('c#.{1}',lan, re.I | re.S))    ###re.S 表示 . 匹配任意字符，包括换行符  |表示两种规则都适用
+
+##sub函数  查找并进行替换
+lan='PythonC#JavaPHPC#'
+print(re.sub('C#',&quot;GO&quot;,lan,count=0))  ##count=0时对所有满足的字符进行替换
+print(re.sub('C#',&quot;GO&quot;,lan,count=1))  ##count=1时对替换固定数目
+##使用replace可以进行简单的替换
+print(lan.replace(&quot;C#&quot;,&quot;GO&quot;))
+
+##函数形式进行替换
+def convert(value):
+    #print(value)
+    matched=value.group()
+    return '!!'+matched+'!!'
+
+print(re.sub('C#',convert,lan))
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[网页版blast构建]]></title>
         <id>https://peerpoll.github.io//post/wang-ye-ban-blast-gou-jian</id>
