@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://peerpoll.github.io/</id>
     <title>Peer&apos;s blog</title>
-    <updated>2019-07-12T07:31:09.343Z</updated>
+    <updated>2019-07-12T07:51:24.731Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://peerpoll.github.io/"/>
     <link rel="self" href="https://peerpoll.github.io//atom.xml"/>
@@ -38,8 +38,15 @@ mamba install snakemake
 <p>关闭环境</p>
 <pre><code>source deactivate
 </code></pre>
-<p>基本方法是这样的，根据需要编写自己的代码脚本
-主要参考孟叔的<a href="https://www.bilibili.com/video/av45832590/?p=1">使用SnakeMake搭建生信流程</a></p>
+<p>基本方法是这样的，根据需要编写自己的代码脚本</p>
+<p>写完代码脚本之后
+运行snakemake脚本</p>
+<pre><code>snakemake -s snakefile.py
+</code></pre>
+<p>断点运行</p>
+<pre><code>snakemake -s snakefile.py --rerun-incomplete
+</code></pre>
+<p>主要参考孟叔的<a href="https://www.bilibili.com/video/av45832590/?p=1">使用SnakeMake搭建生信流程</a></p>
 ]]></content>
     </entry>
     <entry>
