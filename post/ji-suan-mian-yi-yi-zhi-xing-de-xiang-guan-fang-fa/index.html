@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>R | Peer&#39;s blog</title>
+<title>计算免疫异质性的相关方法 | Peer&#39;s blog</title>
 <meta name="description" content="书写博客加强学习">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -15,6 +15,12 @@
 <link rel="stylesheet" href="https://peerpoll.github.io//styles/main.css">
 
 
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 
 
@@ -23,6 +29,7 @@
 
   </head>
   <body>
+  
     <nav class="navbar border fixed split-nav">
   <div class="nav-brand">
     <h3><a href="https://peerpoll.github.io/">Peer&#39;s blog</a></h3>
@@ -79,40 +86,56 @@
     <div id="top" class="row site">
       <div class="sm-12 md-8 col">
         <div class="paper">
-          <h2 class="current-tag">标签: R</h2>
-          
-  <article class="article">
-    <h2 class="article-title">
-      <a href="https://peerpoll.github.io//post/li-yong-dndscv-cong-tcga-zhong-zhao-xian-zhu-tu-bian-ji-yin-smgs">利用dNdScv从TCGA中找显著突变基因(SMGs)</a>
-    </h2>
-    <p class="article-meta">
-      2019-08-30
-      
-        <a href="https://peerpoll.github.io//tag/pvg03-NCf" class="badge secondary">
-          R
-        </a>
-      
-    </p>
-    <p class="text-lead">
-      
-    </p>
-    <div class="row">
-      <a href="https://peerpoll.github.io//post/li-yong-dndscv-cong-tcga-zhong-zhao-xian-zhu-tu-bian-ji-yin-smgs" class="readmore-link">
-        <button>
-          Read More
-        </button>
-      </a>
-    </div>
-  </article>
+          <article class="article">
+            <h1>计算免疫异质性的相关方法</h1>
+            <p class="article-meta">
+              2019-10-21
+              
+            </p>
+            
+            <div class="post-content">
+              <p>肿瘤异质性可分为肿瘤间异质性和肿瘤内异质性，其中肿瘤内异质性<strong>Intra-tumor heterogeneity (ITH)</strong> 指的是，随着癌细胞的不断生长，其分裂后的子代细胞呈现出与同代细胞或者父细胞的不同，从而使得其各个方面有了较大的差异。</p>
+<ol>
+<li>PyClone: statistical inference of clonal population structure in cancer（2014，PMC4864026）
+<a href="https://github.com/aroth85/pyclone">github</a>
+<a href="http://www.bio-info-trainee.com/3964.html">详细的中文使用教程</a>
+PyClone: a novel, hierarchical Bayes statistical model. The inputs to the model are a set of deeply sequenced mutations from one or more samples derived from the same cancer, and a measure of allele-specific copy number at each mutation locus in each sample. PyClone outputs posterior densities for model parameters including the cellular prevalence for each mutation in the input and the clustering structure over the mutations.</li>
+</ol>
+<p>2.Mutant-allele tumor heterogeneity(MATH  2013;PMC3570658)
+1）首先通过测序数据计算每个样本的MAF（mutant-allele fractions）值，一般软件结果都会给出这个数据
+2）再通过MAF计算得到MAD（median absolute deviation）值，也就是计算每个MAF值与其中位数的绝对差值，并将这些绝对差值的中位数再乘以一个常量（1.4826），从而获得MAD值，
+3）将MAD值除以MAF的中位数，再乘以100
+MATH的意义，作者认为MATH能有效的代表肿瘤特异性特变位点的MAF值的分布的偏差，相当于说明MAF偏离该样本的MAF整体分布的程度（有点标准差的意思），当然是MATH值越大，说明肿瘤异质性越高
+在bioconductor的<strong>maftools</strong>这个R包里面可以很方便的计算 MATH值</p>
 
-
+            </div>
+          </article>
         </div>
-        <div class="row flex-edges">
-  
-  
-</div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://peerpoll.github.io//post/fei-xiao-xi-bao-fei-yan-de-mian-yi-liao-fa-de-wen-xian">
+                <h3 class="post-title">
+                  非小细胞肺癌的免疫疗法的文献
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+          
+            <div class="paper" data-aos="fade-in">
+              <div id="gitalk-container"></div>
+            </div>
+          
 
+          
+        
       </div>
+
       <div class="sm-12 md-4 col sidebar">
   <div class="paper info-container">
     <img src="https://peerpoll.github.io//images/avatar.png?v=1571642389208" class="no-responsive avatar">
@@ -211,7 +234,7 @@
           R
         </a>
       
-        <a href="https://peerpoll.github.io//tag/Alcko_urn" class="badge ">
+        <a href="https://peerpoll.github.io//tag/Alcko_urn" class="badge secondary">
           python
         </a>
       
@@ -226,6 +249,7 @@
   </div>
 </div>
 
+
     </div>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
@@ -237,6 +261,29 @@ AOS.init();
 hljs.initHighlightingOnLoad()
 
 </script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'be71559da69753f62c8a',
+        clientSecret: '3cc5d67fce495417f45c14b21452b825f3bdb2e8',
+        repo: 'Peerpoll.github.io',
+        owner: 'Peerpoll',
+        admin: ['Peerpoll'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
 
 
 
