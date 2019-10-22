@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://peerpoll.github.io//favicon.ico?v=1571642689258">
+<link rel="shortcut icon" href="https://peerpoll.github.io//favicon.ico?v=1571726481071">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://peerpoll.github.io//styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://peerpoll.github.io/">
-        <img src="https://peerpoll.github.io//images/avatar.png?v=1571642689258" class="site-logo">
+        <img src="https://peerpoll.github.io//images/avatar.png?v=1571726481071" class="site-logo">
         <h1 class="site-title">Peer&#39;s blog</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -115,6 +115,10 @@ PyClone: a novel, hierarchical Bayes statistical model. The inputs to the model 
 3）将MAD值除以MAF的中位数，再乘以100
 MATH的意义，作者认为MATH能有效的代表肿瘤特异性特变位点的MAF值的分布的偏差，相当于说明MAF偏离该样本的MAF整体分布的程度（有点标准差的意思），当然是MATH值越大，说明肿瘤异质性越高
 在bioconductor的<strong>maftools</strong>这个R包里面可以很方便的计算 MATH值</p>
+<p>3.PhyloWGS: reconstructing subclonal composition and evolution from whole-genome sequencing of tumors（2015；25786235）
+详细介绍参考<a href="https://github.com/morrislab/phylowgs">Github</a>
+PhyloWGS需要原始测序数据，计算的结果用来代替肿瘤内部的异质性
+需要simple somatic mutations（SSMs）和 copy number variations (CNVs) 两种数据</p>
 
             </div>
             
