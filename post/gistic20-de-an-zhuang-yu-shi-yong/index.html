@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>python数据分析 | Peer&#39;s blog</title>
+<title>GISTIC2.0的安装与使用 | Peer&#39;s blog</title>
 <meta name="description" content="书写博客加强学习">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -98,50 +98,62 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">python数据分析</h2>
-            <div class="post-date">2019-10-11</div>
+            <h2 class="post-title">GISTIC2.0的安装与使用</h2>
+            <div class="post-date">2019-12-24</div>
             
             <div class="post-content">
-              <h4 id="魔术命令只在ipython">魔术命令(只在IPython)</h4>
-<p>%timeit : 测量任何Python语句，例如矩阵乘法，的执行时间
-%magic: 显示魔术命令的详细文档
-%pwd:查看当前目录
-<img src="https://peerpoll.github.io//post-images/1570763249296.jpg" alt="魔术命令"></p>
-<p>用isinstance函数检查对象是某个类型的实例</p>
+              <h4 id="因为最近的课题需要将分完的两组数据进行比较其中就有一步是需要比较两组之间的cnv差异需要跑gistic">因为最近的课题需要将分完的两组数据进行比较，其中就有一步是需要比较两组之间的CNV差异，需要跑GISTIC</h4>
+<h5 id="gistic的介绍">GISTIC的介绍</h5>
+<pre><code>Summary:
+The GISTIC module identifies regions of the genome that are significantly amplified or deleted across a set of samples. Each aberration is assigned a G-score that considers the amplitude of the aberration as well as the frequency of its occurrence across samples. False Discovery Rate q-values are then calculated for the aberrant regions, and regions with q-values below a user-defined threshold are considered significant. For each significant region, a “peak region” is identified, which is the part of the aberrant region with greatest amplitude and frequency of alteration. In addition, a “wide peak” is determined using a leave-one-out algorithm to allow for errors in the boundaries in a single sample. The “wide peak” boundaries are more robust for identifying the most likely gene targets in the region. Each significantly aberrant region is also tested to determine whether it results primarily from broad events (longer than half a chromosome arm), focal events, or significant levels of both. The GISTIC module reports the genomic locations and calculated q-values for the aberrant regions. It identifies the samples that exhibit each significant amplification or deletion, and it lists genes found in each “wide peak” region.
+References:
+Mermel C, Schumacher S, et al. (2011). &quot;GISTIC2.0 facilitates sensitive and confident localization of the targets of focal somatic copy-number alteration in human cancers.&quot; Genome Biology, 12:R41.
+Beroukhim R, Mermel C, et al. (2010). &quot;The landscape of somatic copy -number alteration across human cancers.&quot; Nature, 463:899-905.
+Beroukhim R, Getz G, et al. (2007). “Assessing the significance of chromosomal abberations in cancer: Methodology and application to glioma.” Proc Natl Acad Sci, 104:20007-20012.
+</code></pre>
+<h5 id="下载与安装">下载与安装</h5>
+<p>下载：</p>
 <blockquote>
-<p>isinstance(5,	int)
-isinstance可以用于类型元组，检查对象的类型是否在元组中</p>
+<p>wget -c ftp://ftp.broadinstitute.org/pub/GISTIC2.0/GISTIC_2_0_23.tar.gz
+安装：</p>
 </blockquote>
-<p>enumerate函数，可以返回(i,	value)元组序列
-sorted函数可以从任意序列的元素返回一个新的排好序的列表
-sorted函数可以接受和sort相同的参数</p>
-<blockquote>
-<p>sorted(iterable[, cmp[, key[, reverse]]])        iterable.sort(cmp[, key[, reverse]])
-a.sort()会改变原本a中的排序
-sorted(a) 不会改变原本a的排序，会输出a排序后的结果</p>
-</blockquote>
-<p>zip可以将多个列表、元组或其它序列成对组合成一个元组列表
-reversed可以从后向前迭代一个序列，将列表反过来</p>
-<p>update可以将一个字典与另一个融合</p>
-<h3 id="numpy">Numpy</h3>
-<p>NumPy的ndarray：多维数组对象</p>
+<pre><code>mkdir GISTIC
+mv GISTIC_2_0_23.tar.gz GISTIC/
+tar zxf GISTIC_2_0_23.tar.gz
+</code></pre>
+<p>安装Matlab: 因为下载的包中自带安装包所以不需要再次安装</p>
+<pre><code>cd MCR_Installer/
+unzip MCRInstaller.zip 
+./install -mode silent -agreeToLicense yes -destinationFolder 
+/root/GISTIC/MATLAB_Compiler_Runtime/
+</code></pre>
+<p>设置Matlab 变量</p>
+<pre><code>echo &quot;export XAPPLRESDIR=/root/GISTIC/MATLAB_Compiler_Runtime/v83/X11/app-defaults:\$XAPPLRESDIR&quot; &gt;&gt; ~/.bashrc
+source ~/.bashrc
+</code></pre>
+<p>运行示例文件，进行测试：</p>
+<pre><code>cd /root/GISTIC/
+./run_gistic_example
+</code></pre>
+<h5 id="使用">使用</h5>
+<p><a href="https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/CNV_Pipeline/">参考TCGA的参数</a>
+所需文件：</p>
+<pre><code>TCGA  CNV的segment
+#Snp  Snp6.0的芯片注释文件(单独看snp时需要，现在不需要)
+hg38  hg38.UCSC.add_miR.160920.refgene.mat
+</code></pre>
+<p>代码：（注意要切换到GISTIC文件中）</p>
+<pre><code>/root/GISTIC/gistic2 -b /root/cluster_1/ -seg /root/clust1_cnv.txt -refgene /root/GISTIC/refgenefiles/hg38.UCSC.add_miR.160920.refgene.mat -ta 0.1 -armpeel 1 -brlen 0.7 -cap 1.5 -conf 0.99 -td 0.1 -genegistic 1 -gcm extreme -js 4 -maxseg 2000 -qvt 0.25 -rx 0 -savegene 1
+</code></pre>
 
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://peerpoll.github.io//tag/Alcko_urn" class="tag">
-                    python
-                  </a>
-                
-              </div>
             
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://peerpoll.github.io//post/r-yu-yan-shu-ju-fen-xi">
+                <a href="https://peerpoll.github.io//post/ji-suan-mian-yi-yi-zhi-xing-de-xiang-guan-fang-fa">
                   <h3 class="post-title">
-                    R语言数据分析
+                    计算肿瘤异质性的相关方法
                   </h3>
                 </a>
               </div>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://peerpoll.github.io/</id>
     <title>Peer&apos;s blog</title>
-    <updated>2019-10-24T06:07:39.321Z</updated>
+    <updated>2019-12-24T01:58:44.377Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://peerpoll.github.io/"/>
     <link rel="self" href="https://peerpoll.github.io//atom.xml"/>
@@ -10,6 +10,57 @@
     <logo>https://peerpoll.github.io//images/avatar.png</logo>
     <icon>https://peerpoll.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Peer&apos;s blog</rights>
+    <entry>
+        <title type="html"><![CDATA[GISTIC2.0的安装与使用]]></title>
+        <id>https://peerpoll.github.io//post/gistic20-de-an-zhuang-yu-shi-yong</id>
+        <link href="https://peerpoll.github.io//post/gistic20-de-an-zhuang-yu-shi-yong">
+        </link>
+        <updated>2019-12-24T01:40:59.000Z</updated>
+        <content type="html"><![CDATA[<h4 id="因为最近的课题需要将分完的两组数据进行比较其中就有一步是需要比较两组之间的cnv差异需要跑gistic">因为最近的课题需要将分完的两组数据进行比较，其中就有一步是需要比较两组之间的CNV差异，需要跑GISTIC</h4>
+<h5 id="gistic的介绍">GISTIC的介绍</h5>
+<pre><code>Summary:
+The GISTIC module identifies regions of the genome that are significantly amplified or deleted across a set of samples. Each aberration is assigned a G-score that considers the amplitude of the aberration as well as the frequency of its occurrence across samples. False Discovery Rate q-values are then calculated for the aberrant regions, and regions with q-values below a user-defined threshold are considered significant. For each significant region, a “peak region” is identified, which is the part of the aberrant region with greatest amplitude and frequency of alteration. In addition, a “wide peak” is determined using a leave-one-out algorithm to allow for errors in the boundaries in a single sample. The “wide peak” boundaries are more robust for identifying the most likely gene targets in the region. Each significantly aberrant region is also tested to determine whether it results primarily from broad events (longer than half a chromosome arm), focal events, or significant levels of both. The GISTIC module reports the genomic locations and calculated q-values for the aberrant regions. It identifies the samples that exhibit each significant amplification or deletion, and it lists genes found in each “wide peak” region.
+References:
+Mermel C, Schumacher S, et al. (2011). &quot;GISTIC2.0 facilitates sensitive and confident localization of the targets of focal somatic copy-number alteration in human cancers.&quot; Genome Biology, 12:R41.
+Beroukhim R, Mermel C, et al. (2010). &quot;The landscape of somatic copy -number alteration across human cancers.&quot; Nature, 463:899-905.
+Beroukhim R, Getz G, et al. (2007). “Assessing the significance of chromosomal abberations in cancer: Methodology and application to glioma.” Proc Natl Acad Sci, 104:20007-20012.
+</code></pre>
+<h5 id="下载与安装">下载与安装</h5>
+<p>下载：</p>
+<blockquote>
+<p>wget -c ftp://ftp.broadinstitute.org/pub/GISTIC2.0/GISTIC_2_0_23.tar.gz
+安装：</p>
+</blockquote>
+<pre><code>mkdir GISTIC
+mv GISTIC_2_0_23.tar.gz GISTIC/
+tar zxf GISTIC_2_0_23.tar.gz
+</code></pre>
+<p>安装Matlab: 因为下载的包中自带安装包所以不需要再次安装</p>
+<pre><code>cd MCR_Installer/
+unzip MCRInstaller.zip 
+./install -mode silent -agreeToLicense yes -destinationFolder 
+/root/GISTIC/MATLAB_Compiler_Runtime/
+</code></pre>
+<p>设置Matlab 变量</p>
+<pre><code>echo &quot;export XAPPLRESDIR=/root/GISTIC/MATLAB_Compiler_Runtime/v83/X11/app-defaults:\$XAPPLRESDIR&quot; &gt;&gt; ~/.bashrc
+source ~/.bashrc
+</code></pre>
+<p>运行示例文件，进行测试：</p>
+<pre><code>cd /root/GISTIC/
+./run_gistic_example
+</code></pre>
+<h5 id="使用">使用</h5>
+<p><a href="https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/CNV_Pipeline/">参考TCGA的参数</a>
+所需文件：</p>
+<pre><code>TCGA  CNV的segment
+#Snp  Snp6.0的芯片注释文件(单独看snp时需要，现在不需要)
+hg38  hg38.UCSC.add_miR.160920.refgene.mat
+</code></pre>
+<p>代码：（注意要切换到GISTIC文件中）</p>
+<pre><code>/root/GISTIC/gistic2 -b /root/cluster_1/ -seg /root/clust1_cnv.txt -refgene /root/GISTIC/refgenefiles/hg38.UCSC.add_miR.160920.refgene.mat -ta 0.1 -armpeel 1 -brlen 0.7 -cap 1.5 -conf 0.99 -td 0.1 -genegistic 1 -gcm extreme -js 4 -maxseg 2000 -qvt 0.25 -rx 0 -savegene 1
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[计算肿瘤异质性的相关方法]]></title>
         <id>https://peerpoll.github.io//post/ji-suan-mian-yi-yi-zhi-xing-de-xiang-guan-fang-fa</id>
@@ -648,15 +699,6 @@ gap open　　q.start（匹配上的查询序列起点）　　q.end（匹配上
 <pre><code>&quot;&quot;&quot;blastn -query %s  -db %s -out %s -task %s -evalue %d -word_size %d -reward %d -penalty %d -gapopen %d -gapextend %d -dust %s -outfmt 6 &quot;&quot;&quot;%(inname,db,outname,task,evalue,word_size,reward,penalty,gapopen,gapextend,dust)
 </code></pre>
 <h4 id="对获取的结果可以进行美化可以使用blasterjs对结果展示惊醒美化">对获取的结果可以进行美化，可以使用blasterJS对结果展示惊醒美化</h4>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[申明]]></title>
-        <id>https://peerpoll.github.io//post/shen-ming</id>
-        <link href="https://peerpoll.github.io//post/shen-ming">
-        </link>
-        <updated>2019-07-01T12:36:12.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="将之前的博客园中的文章转到这边以后主要在这个博客上进行更新">将之前的博客园中的文章转到这边，以后主要在这个博客上进行更新</h2>
 ]]></content>
     </entry>
 </feed>
