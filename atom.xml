@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://peerpoll.github.io/</id>
     <title>Gridea</title>
-    <updated>2022-02-18T08:56:15.326Z</updated>
+    <updated>2022-02-18T09:02:00.732Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://peerpoll.github.io/"/>
     <link rel="self" href="https://peerpoll.github.io/atom.xml"/>
@@ -10,6 +10,65 @@
     <logo>https://peerpoll.github.io/images/avatar.png</logo>
     <icon>https://peerpoll.github.io/favicon.ico</icon>
     <rights>All rights reserved 2022, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[Docker学习]]></title>
+        <id>https://peerpoll.github.io/post/docker-xue-xi/</id>
+        <link href="https://peerpoll.github.io/post/docker-xue-xi/">
+        </link>
+        <updated>2022-02-18T09:01:41.000Z</updated>
+        <content type="html"><![CDATA[<h1>Docker安装</h1>
+<p>1.下载docker,需要root权限，且能够联网</p>
+<pre><code class="language-shell">wget -qO- https://get.docker.com/ | sh
+modprobe: FATAL: Module aufs not found /lib/modules/4.4.0-36-generic
++ sh -c 'sleep 3; yum -y -q install docker-engine'
+&lt;Snip&gt;
+If you would like to use Docker as a non-root user, you should
+now consider adding your user to the &quot;docker&quot; group with
+something like:
+sudo usermod -aG docker your-user
+Remember that you will have to log out and back in...
+</code></pre>
+<p>2.当需要增加非root用户使用docker时，输入以下代码</p>
+<pre><code class="language-shell">sudo usermod -aG docker npoulton
+</code></pre>
+<p>3.可以使用以下命令查看是否安装完成，并查看版本</p>
+<pre><code class="language-shell">docker --version
+</code></pre>
+<h1>常规的查询命令</h1>
+1.查看镜像列表
+```shell
+docker image ls
+REPOSITORY TAG IMAGE ID CREATED SIZE
+```
+Docker 的每个镜像都有自己的唯一 ID。可以通过引用镜像的 ID 或名称来使用镜像。
+如果选择使用镜像 ID，通常只需要输入 ID 开头的几个字符即可——因为 ID 是唯一的，Docker 知道用户想引用的具体镜像是哪个。
+<p>2.容器启动<br>
+利用docker container run启动容器</p>
+<pre><code class="language-shell">docker container run -it centos:latest /bin/bash
+</code></pre>
+<p>其中 -it 参数告诉 Docker 开启容器的交互模式并将读者当前的 Shell 连接到容器终端<br>
+centos:latest 启动容器的镜像版本<br>
+/bin/bash  表示的是需要运行的进程</p>
+<p>3.查看处于运行状态中的容器<br>
+docker container ls  查看系统内全部处于运行状态的容器。</p>
+<pre><code class="language-shell">docker container ls
+CONTAINER ID IMAGE COMMAND CREATED STATUS NAMES
+de64c1401f7d   centos:latest   &quot;/bin/bash&quot;   7 minutes ago   Up 7 minutes             zealous_bardeen
+</code></pre>
+<p>docker container ls -a 查看所有容器，包括处于停止状态的容器。</p>
+<p>4.连接到运行中的容器<br>
+docker container exec 可以将 Shell 连接到一个运行中的容器终端。</p>
+<pre><code class="language-shell">docker container exec -it zealous_bardeen bash
+</code></pre>
+<p>5.停止、杀死容器<br>
+docker container stop  来停止容器</p>
+<pre><code class="language-shell">docker container stop zealous_bardeen
+</code></pre>
+<p>docker container rm  杀死容器</p>
+<pre><code class="language-shell">docker container rm zealous_bardeen
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Docker初学]]></title>
         <id>https://peerpoll.github.io/post/docker-chu-xue/</id>

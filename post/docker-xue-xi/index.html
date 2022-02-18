@@ -2,23 +2,19 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>关于 | Gridea</title>
+<title>Docker学习 | Gridea</title>
 <link rel="shortcut icon" href="https://peerpoll.github.io//favicon.ico?v=1645174914356">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://peerpoll.github.io//styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="关于 | Gridea - Atom Feed" href="https://peerpoll.github.io//atom.xml">
+<link rel="alternate" type="application/atom+xml" title="Docker学习 | Gridea - Atom Feed" href="https://peerpoll.github.io//atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="
-欢迎来到我的小站呀，很高兴遇见你！🤝
-
-🏠 关于本站
-👨‍💻 博主是谁
-⛹ 兴趣爱好
-📬 联系我呀
-..." />
+    <meta name="description" content="Docker安装
+1.下载docker,需要root权限，且能够联网
+wget -qO- https://get.docker.com/ | sh
+modprobe: FATAL: Module aufs not found /lib/mo..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -81,46 +77,89 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              关于
+              Docker学习
             </h2>
             <div class="post-info">
               <span>
-                2019-01-25
+                2022-02-18
               </span>
               <span>
-                1 min read
+                3 min read
               </span>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <blockquote>
-<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
-</blockquote>
-<h2 id="关于本站">🏠 关于本站</h2>
-<h2 id="博主是谁">👨‍💻 博主是谁</h2>
-<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
-<h2 id="联系我呀">📬 联系我呀</h2>
+                <h1>Docker安装</h1>
+<p>1.下载docker,需要root权限，且能够联网</p>
+<pre><code class="language-shell">wget -qO- https://get.docker.com/ | sh
+modprobe: FATAL: Module aufs not found /lib/modules/4.4.0-36-generic
++ sh -c 'sleep 3; yum -y -q install docker-engine'
+&lt;Snip&gt;
+If you would like to use Docker as a non-root user, you should
+now consider adding your user to the &quot;docker&quot; group with
+something like:
+sudo usermod -aG docker your-user
+Remember that you will have to log out and back in...
+</code></pre>
+<p>2.当需要增加非root用户使用docker时，输入以下代码</p>
+<pre><code class="language-shell">sudo usermod -aG docker npoulton
+</code></pre>
+<p>3.可以使用以下命令查看是否安装完成，并查看版本</p>
+<pre><code class="language-shell">docker --version
+</code></pre>
+<h1>常规的查询命令</h1>
+1.查看镜像列表
+```shell
+docker image ls
+REPOSITORY TAG IMAGE ID CREATED SIZE
+```
+Docker 的每个镜像都有自己的唯一 ID。可以通过引用镜像的 ID 或名称来使用镜像。
+如果选择使用镜像 ID，通常只需要输入 ID 开头的几个字符即可——因为 ID 是唯一的，Docker 知道用户想引用的具体镜像是哪个。
+<p>2.容器启动<br>
+利用docker container run启动容器</p>
+<pre><code class="language-shell">docker container run -it centos:latest /bin/bash
+</code></pre>
+<p>其中 -it 参数告诉 Docker 开启容器的交互模式并将读者当前的 Shell 连接到容器终端<br>
+centos:latest 启动容器的镜像版本<br>
+/bin/bash  表示的是需要运行的进程</p>
+<p>3.查看处于运行状态中的容器<br>
+docker container ls  查看系统内全部处于运行状态的容器。</p>
+<pre><code class="language-shell">docker container ls
+CONTAINER ID IMAGE COMMAND CREATED STATUS NAMES
+de64c1401f7d   centos:latest   &quot;/bin/bash&quot;   7 minutes ago   Up 7 minutes             zealous_bardeen
+</code></pre>
+<p>docker container ls -a 查看所有容器，包括处于停止状态的容器。</p>
+<p>4.连接到运行中的容器<br>
+docker container exec 可以将 Shell 连接到一个运行中的容器终端。</p>
+<pre><code class="language-shell">docker container exec -it zealous_bardeen bash
+</code></pre>
+<p>5.停止、杀死容器<br>
+docker container stop  来停止容器</p>
+<pre><code class="language-shell">docker container stop zealous_bardeen
+</code></pre>
+<p>docker container rm  杀死容器</p>
+<pre><code class="language-shell">docker container rm zealous_bardeen
+</code></pre>
 
               </div>
               <div class="toc-container">
-                <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li><a href="#%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99">🏠 关于本站</a></li>
-<li><a href="#%E5%8D%9A%E4%B8%BB%E6%98%AF%E8%B0%81">👨‍💻 博主是谁</a></li>
-<li><a href="#%E5%85%B4%E8%B6%A3%E7%88%B1%E5%A5%BD">⛹ 兴趣爱好</a></li>
-<li><a href="#%E8%81%94%E7%B3%BB%E6%88%91%E5%91%80">📬 联系我呀</a></li>
-</ul>
-</li>
-</ul>
-
+                
               </div>
             </div>
           </article>
         </div>
 
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://peerpoll.github.io/post/docker-chu-xue/">
+              <h3 class="post-title">
+                Docker初学
+              </h3>
+            </a>
+          </div>
         
 
         
