@@ -1,704 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://peerpoll.github.io/</id>
-    <title>Peer&apos;s blog</title>
-    <updated>2019-12-24T08:15:04.445Z</updated>
+    <title>Gridea</title>
+    <updated>2022-02-18T08:56:15.326Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://peerpoll.github.io/"/>
-    <link rel="self" href="https://peerpoll.github.io//atom.xml"/>
-    <subtitle>书写博客加强学习</subtitle>
-    <logo>https://peerpoll.github.io//images/avatar.png</logo>
-    <icon>https://peerpoll.github.io//favicon.ico</icon>
-    <rights>All rights reserved 2019, Peer&apos;s blog</rights>
+    <link rel="self" href="https://peerpoll.github.io/atom.xml"/>
+    <subtitle>温故而知新</subtitle>
+    <logo>https://peerpoll.github.io/images/avatar.png</logo>
+    <icon>https://peerpoll.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2022, Gridea</rights>
     <entry>
-        <title type="html"><![CDATA[GISTIC2.0的安装与使用]]></title>
-        <id>https://peerpoll.github.io//post/gistic20-de-an-zhuang-yu-shi-yong</id>
-        <link href="https://peerpoll.github.io//post/gistic20-de-an-zhuang-yu-shi-yong">
+        <title type="html"><![CDATA[Docker初学]]></title>
+        <id>https://peerpoll.github.io/post/docker-chu-xue/</id>
+        <link href="https://peerpoll.github.io/post/docker-chu-xue/">
         </link>
-        <updated>2019-12-24T01:40:59.000Z</updated>
-        <content type="html"><![CDATA[<h4 id="因为最近的课题需要将分完的两组数据进行比较其中就有一步是需要比较两组之间的cnv差异需要跑gistic">因为最近的课题需要将分完的两组数据进行比较，其中就有一步是需要比较两组之间的CNV差异，需要跑GISTIC</h4>
-<h5 id="gistic的介绍">GISTIC的介绍</h5>
-<pre><code>Summary:
-The GISTIC module identifies regions of the genome that are significantly amplified or deleted across a set of samples. Each aberration is assigned a G-score that considers the amplitude of the aberration as well as the frequency of its occurrence across samples. False Discovery Rate q-values are then calculated for the aberrant regions, and regions with q-values below a user-defined threshold are considered significant. For each significant region, a “peak region” is identified, which is the part of the aberrant region with greatest amplitude and frequency of alteration. In addition, a “wide peak” is determined using a leave-one-out algorithm to allow for errors in the boundaries in a single sample. The “wide peak” boundaries are more robust for identifying the most likely gene targets in the region. Each significantly aberrant region is also tested to determine whether it results primarily from broad events (longer than half a chromosome arm), focal events, or significant levels of both. The GISTIC module reports the genomic locations and calculated q-values for the aberrant regions. It identifies the samples that exhibit each significant amplification or deletion, and it lists genes found in each “wide peak” region.
-References:
-Mermel C, Schumacher S, et al. (2011). &quot;GISTIC2.0 facilitates sensitive and confident localization of the targets of focal somatic copy-number alteration in human cancers.&quot; Genome Biology, 12:R41.
-Beroukhim R, Mermel C, et al. (2010). &quot;The landscape of somatic copy -number alteration across human cancers.&quot; Nature, 463:899-905.
-Beroukhim R, Getz G, et al. (2007). “Assessing the significance of chromosomal abberations in cancer: Methodology and application to glioma.” Proc Natl Acad Sci, 104:20007-20012.
+        <updated>2022-02-18T07:05:42.000Z</updated>
+        <content type="html"><![CDATA[<h1>Docker安装</h1>
+<p>1.下载docker,需要root权限，且能够联网</p>
+<pre><code class="language-shell">wget -qO- https://get.docker.com/ | sh
+modprobe: FATAL: Module aufs not found /lib/modules/4.4.0-36-generic
++ sh -c 'sleep 3; yum -y -q install docker-engine'
+&lt;Snip&gt;
+If you would like to use Docker as a non-root user, you should
+now consider adding your user to the &quot;docker&quot; group with
+something like:
+sudo usermod -aG docker your-user
+Remember that you will have to log out and back in...
 </code></pre>
-<h5 id="下载与安装">下载与安装</h5>
-<p>下载：</p>
-<blockquote>
-<p>wget -c ftp://ftp.broadinstitute.org/pub/GISTIC2.0/GISTIC_2_0_23.tar.gz
-安装：</p>
-</blockquote>
-<pre><code>mkdir GISTIC
-mv GISTIC_2_0_23.tar.gz GISTIC/
-tar zxf GISTIC_2_0_23.tar.gz
+<p>2.当需要增加非root用户使用docker时，输入以下代码</p>
+<pre><code class="language-shell">sudo usermod -aG docker npoulton
 </code></pre>
-<p>安装Matlab: 因为下载的包中自带安装包所以不需要再次安装</p>
-<pre><code>cd MCR_Installer/
-unzip MCRInstaller.zip 
-./install -mode silent -agreeToLicense yes -destinationFolder 
-/root/GISTIC/MATLAB_Compiler_Runtime/
+<p>3.可以使用以下命令查看是否安装完成，并查看版本</p>
+<pre><code class="language-shell">docker --version
 </code></pre>
-<p>设置Matlab 变量</p>
-<pre><code>echo &quot;export XAPPLRESDIR=/root/GISTIC/MATLAB_Compiler_Runtime/v83/X11/app-defaults:\$XAPPLRESDIR&quot; &gt;&gt; ~/.bashrc
-source ~/.bashrc
+<h1>常规的查询命令</h1>
+1.查看镜像列表
+```shell
+docker image ls
+REPOSITORY TAG IMAGE ID CREATED SIZE
+```
+Docker 的每个镜像都有自己的唯一 ID。可以通过引用镜像的 ID 或名称来使用镜像。
+如果选择使用镜像 ID，通常只需要输入 ID 开头的几个字符即可——因为 ID 是唯一的，Docker 知道用户想引用的具体镜像是哪个。
+<p>2.容器启动<br>
+利用docker container run启动容器</p>
+<pre><code class="language-shell">docker container run -it centos:latest /bin/bash
 </code></pre>
-<p>运行示例文件，进行测试：</p>
-<pre><code>cd /root/GISTIC/
-./run_gistic_example
+<p>其中 -it 参数告诉 Docker 开启容器的交互模式并将读者当前的 Shell 连接到容器终端<br>
+centos:latest 启动容器的镜像版本<br>
+/bin/bash  表示的是需要运行的进程</p>
+<p>3.查看处于运行状态中的容器<br>
+docker container ls  查看系统内全部处于运行状态的容器。</p>
+<pre><code class="language-shell">docker container ls
+CONTAINER ID IMAGE COMMAND CREATED STATUS NAMES
+de64c1401f7d   centos:latest   &quot;/bin/bash&quot;   7 minutes ago   Up 7 minutes             zealous_bardeen
 </code></pre>
-<h5 id="使用">使用</h5>
-<p><a href="https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/CNV_Pipeline/">参考TCGA的参数</a>
-所需文件：</p>
-<pre><code>TCGA  CNV的segment
-#Snp  Snp6.0的芯片注释文件(单独看snp时需要，现在不需要)
-hg38  hg38.UCSC.add_miR.160920.refgene.mat
+<p>docker container ls -a 查看所有容器，包括处于停止状态的容器。</p>
+<p>4.连接到运行中的容器<br>
+docker container exec 可以将 Shell 连接到一个运行中的容器终端。</p>
+<pre><code class="language-shell">docker container exec -it zealous_bardeen bash
 </code></pre>
-<p>代码：（注意要切换到GISTIC文件中）</p>
-<pre><code>/root/GISTIC/gistic2 -b /root/cluster_1/ -seg /root/clust1_cnv.txt -refgene /root/GISTIC/refgenefiles/hg38.UCSC.add_miR.160920.refgene.mat -ta 0.1 -armpeel 1 -brlen 0.7 -cap 1.5 -conf 0.99 -td 0.1 -genegistic 1 -gcm extreme -js 4 -maxseg 2000 -qvt 0.25 -rx 0 -savegene 1
+<p>5.停止、杀死容器<br>
+docker container stop  来停止容器</p>
+<pre><code class="language-shell">docker container stop zealous_bardeen
+</code></pre>
+<p>docker container rm  杀死容器</p>
+<pre><code class="language-shell">docker container rm zealous_bardeen
 </code></pre>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[计算肿瘤异质性的相关方法]]></title>
-        <id>https://peerpoll.github.io//post/ji-suan-mian-yi-yi-zhi-xing-de-xiang-guan-fang-fa</id>
-        <link href="https://peerpoll.github.io//post/ji-suan-mian-yi-yi-zhi-xing-de-xiang-guan-fang-fa">
+        <title type="html"><![CDATA[Hello Gridea]]></title>
+        <id>https://peerpoll.github.io/post/hello-gridea/</id>
+        <link href="https://peerpoll.github.io/post/hello-gridea/">
         </link>
-        <updated>2019-10-21T02:37:28.000Z</updated>
-        <content type="html"><![CDATA[<p>肿瘤异质性可分为肿瘤间异质性和肿瘤内异质性，其中肿瘤内异质性<strong>Intra-tumor heterogeneity (ITH)</strong> 指的是，随着癌细胞的不断生长，其分裂后的子代细胞呈现出与同代细胞或者父细胞的不同，从而使得其各个方面有了较大的差异。</p>
-<ol>
-<li>PyClone: statistical inference of clonal population structure in cancer（2014，PMC4864026）
-<a href="https://github.com/aroth85/pyclone">github</a>
-<a href="http://www.bio-info-trainee.com/3964.html">详细的中文使用教程</a>
-PyClone: a novel, hierarchical Bayes statistical model. The inputs to the model are a set of deeply sequenced mutations from one or more samples derived from the same cancer, and a measure of allele-specific copy number at each mutation locus in each sample. PyClone outputs posterior densities for model parameters including the cellular prevalence for each mutation in the input and the clustering structure over the mutations.</li>
-</ol>
-<p>2.Mutant-allele tumor heterogeneity(MATH  2013;PMC3570658)
-1）首先通过测序数据计算每个样本的MAF（mutant-allele fractions）值，一般软件结果都会给出这个数据
-2）再通过MAF计算得到MAD（median absolute deviation）值，也就是计算每个MAF值与其中位数的绝对差值，并将这些绝对差值的中位数再乘以一个常量（1.4826），从而获得MAD值，
-3）将MAD值除以MAF的中位数，再乘以100
-MATH的意义，作者认为MATH能有效的代表肿瘤特异性特变位点的MAF值的分布的偏差，相当于说明MAF偏离该样本的MAF整体分布的程度（有点标准差的意思），当然是MATH值越大，说明肿瘤异质性越高
-在bioconductor的<strong>maftools</strong>这个R包里面可以很方便的计算 MATH值</p>
-<p>3.PhyloWGS: reconstructing subclonal composition and evolution from whole-genome sequencing of tumors（2015；25786235）
-详细介绍参考<a href="https://github.com/morrislab/phylowgs">Github</a>
-PhyloWGS需要原始测序数据，计算的结果用来代替肿瘤内部的异质性
-需要simple somatic mutations（SSMs）和 copy number variations (CNVs) 两种数据</p>
-<p>4.EXPANDS: expanding ploidy and allele frequency on nested subpopulations(2014;PMC3866558)
-有相应的<a href="https://cran.r-project.org/web/packages/expands/">R包</a>，expands，<a href="http://www.biotrainee.com/thread-972-1-1.html">使用教程</a>
-We consider two types of molecular mechanisms that convert a locus into its mutated state: copy number variation (CNV) inducing events and single nucleotide variation (SNV) inducing events.</p>
-<p>5.CHAT（2019；31522890）
-Using CHAT, we can derive two estimates of number of clones by – clustering cellular abundances of somatic mutations (ITH1) or clustering cellular abundances of CNVs (ITH2). Both estimates convey important information of the underlying clonal structure at different resolutions. Hence, we set the overall intra-tumor heterogeneity of a sample as:
-ITH=max(ITH1,ITH2)</p>
-<p>6.THetA: inferring intra-tumor heterogeneity from high-throughput DNA sequencing data（2013；PMC4054893）
-we introduce Tumor Heterogeneity Analysis (THetA), an algorithm that infers the most likely collection of genomes and their proportions from high-throughput DNA sequencing data, in the case where copy number aberrations distinguish subpopulations.
-THetA<a href="https://github.com/raphael-group/THetA">Github</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[非小细胞肺癌的免疫疗法的文献]]></title>
-        <id>https://peerpoll.github.io//post/fei-xiao-xi-bao-fei-yan-de-mian-yi-liao-fa-de-wen-xian</id>
-        <link href="https://peerpoll.github.io//post/fei-xiao-xi-bao-fei-yan-de-mian-yi-liao-fa-de-wen-xian">
-        </link>
-        <updated>2019-10-14T08:42:10.000Z</updated>
-        <content type="html"><![CDATA[<h4 id="nivolumab-versus-docetaxel-in-advanced-squamous-cell-nonsmall-cell-lung-cancer">Nivolumab versus Docetaxel in Advanced Squamous-Cell Non–Small-Cell Lung Cancer</h4>
-<h4 id="nivolumab与docetaxel在晚期鳞状细胞非小细胞肺癌中治疗效果的比较">Nivolumab与Docetaxel在晚期鳞状细胞非小细胞肺癌中治疗效果的比较</h4>
-<p>背景：</p>
-<ol>
-<li>Patients with advanced squamous-cell non–small-cell lung cancer (NSCLC) who have disease progression during or after first-line chemotherapy have limited treatment options.</li>
-<li>This randomized, open-label, international, phase 3 study evaluated the efficacy and safety of nivolumab, a fully human IgG4 programmed death 1 (PD-1) immune-checkpoint–inhibitor antibody, as compared with docetaxel in this patient population.
-结论：
-Among patients with advanced, previously treated squamous-cell NSCLC, overall survival, response rate, and progression-free survival were significantly better with nivolumab than with docetaxel, regardless of PD-L1 expression level.
-简单来说：
-The median overall survival was 9.2 months (95% confidence interval, 7.3 to 13.3) with nivolumab versus 6.0 months (95% CI, 5.1 to 7.3) with docetaxel.
-The risk of death was 41% lower with nivolumab than with docetaxel (hazard ratio, 0.59; 95% CI, 0.44 to 0.79; P&lt;0.001).
-At 1 year, the overall survival rate was 42% (95% CI, 34 to 50) with nivolumab versus 24% (95% CI, 17 to 31) with docetaxel.
-The response rate was 20% with nivolumab versus 9% with docetaxel (P = 0.008).
-The median progression-free survival was 3.5 months with nivolumab versus 2.8 months with docetaxel (hazard ratio for death or disease progression, 0.62; 95% CI, 0.47 to 0.81; P&lt;0.001).
-The expression of the PD-1 ligand (PD-L1) was neither prognostic nor predictive of benefit.
-Treatment-related adverse events of grade 3 or 4 were reported in 7% of the patients in the nivolumab group as compared with 55% of those in the docetaxel group.
-Nivolumab比Docetaxel的对肺癌的治疗效果要好，反应率，PFS, OS，风险比，安全性都要好，但是与PD-L1(免疫组化测定)表达无关</li>
-</ol>
-<h4 id="pembrolizumab-versus-docetaxel-for-previously-treated-pd-l1-positive-advanced-non-small-cell-lung-cancer-keynote-010-a-randomised-controlled-trial">Pembrolizumab versus docetaxel for previously treated, PD-L1-positive, advanced non-small-cell lung cancer (KEYNOTE-010): a randomised controlled trial</h4>
-<p>Between Aug 28, 2013, and Feb 27, 2015, we enrolled 1034 patients: 345 allocated to pembrolizumab 2 mg/kg, 346 allocated to pembrolizumab 10 mg/kg, and 343 allocated to docetaxel.
-In the total population, median overall survival was 10.4 months with pembrolizumab 2 mg/kg, 12.7 months with pembrolizumab 10 mg/kg, and 8.5 months with docetaxel.
-Median progression-free survival was 3.9 months with pembrolizumab 2 mg/kg, 4.0 months with pembrolizumab 10 mg/kg, and 4.0 months with docetaxel, with no significant difference for pembrolizumab 2 mg/kg versus docetaxel (0·88, 0·74–1·05; p=0·07) or for pembrolizumab 10 mg/kg versus docetaxel (HR 0·79, 95% CI 0·66–0·94; p=0·004).
-Among patients with at least 50% of tumour cells expressing PD-L1, overall survival was significantly longer with pembrolizumab 2 mg/kg than with docetaxel (median
-14·9 months vs 8·2 months; HR 0·54, 95% CI 0·38–0·77; p=0·0002) and with pembrolizumab 10 mg/kg than with docetaxel (17·3 months vs 8·2 months; 0·50, 0·36–0·70; p&lt;0·0001)
-Likewise, for this patient population, progressionfree survival was significantly longer with pembrolizumab 2 mg/kg than with docetaxel (median 5·0 months vs 4·1 months; HR 0·59, 95% CI 0·44–0·78; p=0·0001) and with pembrolizumab 10 mg/kg than with docetaxel (5·2 months vs 4·1 months; 0·59, 0·45–0·78; p&lt;0·0001).
-Grade 3–5 treatment-related adverse events were less common with pembrolizumab than with docetaxel (43 [13%] of 339 patients given 2 mg/kg, 55 [16%] of 343 given 10 mg/kg, and 109 [35%] of 309 given docetaxel)
-总结：
-在三种分组中，Pembrolizumab的两组OS结果比化疗组要好，但是PFS，三组没有显著差异；在PD-L1表达超过50%的分组中，OV和PFS结果显示，Pembrolizumab的两组结果比化疗组生存显著增长。相对于化疗组而言，Pembrolizumab组中的不良反应较少。
-Pembrolizumab prolongs(延长) overall survival and has a favourable benefit-to-risk profile in patients with previously treated, PD-L1-positive, advanced non-small-cell lung cancer.</p>
-<h4 id="pembrolizumab-versus-chemotherapy-for-pd-l1-positive-non-small-cell-lung-cancer">Pembrolizumab versus Chemotherapy for PD-L1-Positive Non-Small-Cell Lung Cancer</h4>
-<h4 id="在pd-l1阳性的非小细胞肺癌中患者利用pembrolizumab对比化疗的治疗效果差异">在PD-L1阳性的非小细胞肺癌中患者利用Pembrolizumab对比化疗的治疗效果差异</h4>
-<p>1.In this open-label, phase 3 trial, we randomly assigned 305 patients who had previously untreated advanced NSCLC with PD-L1 expression on at least 50% of tumor cells and no sensitizing mutation of the epidermal growth factor receptor gene or translocation of the anaplastic lymphoma kinase gene to receive either pembrolizumab (at a fixed dose of 200 mg every 3 weeks) or the investigator’s choice of platinum-based chemotherapy.
-2.In patients with advanced NSCLC and PD-L1 expression on at least 50% of tumor cells, pembrolizumab was associated with significantly longer progression-free and overall survival and with fewer adverse events than was platinum-based chemotherapy.</p>
-<p>在PD-L1表达（免疫组化）表达&gt;50%且没有EGFR突变或ALK易位的患者中，Pembrolizumab组的PFS和OS显著比化疗组的长，治疗的不良事件少。
-Median progression-free survival was 10.3 months (95% confidence interval, 6.7 to not reached) in the pembrolizumab group versus 6.0 months (95% CI, 4.2 to 6.2) in the chemotherapy group (hazard ratio for disease progression or death, 0.50; 95% CI, 0.37 to 0.68; P&lt;0.001).
-The estimated rate of overall survival at 6 months was 80.2% in the pembrolizumab group versus 72.4% in the chemotherapy group (hazard ratio for death, 0.60; 95% CI, 0.41 to 0.89; P=0.005).
-The response rate was higher in the pembrolizumab group than in the chemotherapy group (44.8% vs. 27.8%), the median duration of response was longer (not reached vs. 6.3 months), and treatment-related adverse events of any grade were less frequent (occurring in 73.4% vs. 90.0% of patients), as were grade 3, 4, or 5 treatment-related adverse events (26.6% vs. 53.3%).</p>
-<h4 id="first-line-nivolumab-in-stage-iv-or-recurrent-non-small-cell-lung-cancer">First-Line Nivolumab in Stage IV or Recurrent Non-Small-Cell Lung Cancer</h4>
-<h5 id="一期nivolumab在iv期或复发性非小细胞肺癌中的应用">一期Nivolumab在IV期或复发性非小细胞肺癌中的应用</h5>
-<p>背景：
-Nivolumab has been associated with longer overall survival than docetaxel among patients with previously treated non-small-cell lung cancer (NSCLC).
-we compared first-line nivolumab with chemotherapy in patients with programmed death ligand 1 (PD-Ll)-positive NSCLC.
-结论：</p>
-<ol>
-<li>Among the 423 patients with a PD-L1 expression level of 5% or more, the median progression-free survival was 4.2 months with nivolumab versus 5.9 months with chemo-therapy (hazard ratio for disease progression or death, 1.15; 95% confidence interval, 0.91 to 1.45; P=0.25), and the median overall survival was 14.4 months versus 13.2 months (hazard ratio for death, 1.02; 95% CI, 0.80 to 1.30)</li>
-<li>Treatment-related adverse events of any grade occurred in 71% of the patients who received nivolumab and in 92% of those who received chemotherapy. Treatment-related adverse events of grade 3 or 4 occurred in 18% of the patients who received nivolumab and in 51% of those who received chemotherapy.
-简单说就是：各种PDL1表达（免疫组化鉴定）&gt;5%的患者分组后，发现Nivolumab组相对与化疗组并没有显著的增长PFS和OS。相对化疗组而言，Nivolumab的安全性会好一点。
-针对于PDL1&gt;50%的分组而言，生存，反应率之间也没有显著的差异
-高突变组之间，Nivolumab相对于化疗组效果好，反应率高，PFS时间长，OS没有显著差异（可能是因为高TMB化疗组的后期大部分接受了Nivolumab治疗）
-突变负荷和PDL1表达之间没有相关性
-In conclusion, nivolumab monotherapy did not result in longer progression-free survival than platinum-based chemotherapy as first-line treatment for stage IV or recurrent NSCLC in a broad population of patients with a PD-L1 expression level of 5% or more.
-Overall survival with single-agent nivolumab was similar to overall survival with platinum doublet chemotherapy. Nivolumab had a favorable safety profile as compared with chemotherapy, and no new safety signals were observed.</li>
-</ol>
-<h4 id="health-related-quality-of-life-results-for-pembrolizumab-versus-chemotherapy-in-advanced-pd-l1-positive-nsclc-keynote-024-a-multicentre-international-randomised-open-label-phase-3-trial">Health-related quality-of-life results for pembrolizumab versus chemotherapy in advanced, PD-L1-positive NSCLC (KEYNOTE-024): a multicentre, international, randomised, open-label phase 3 trial</h4>
-<p>Pembrolizumab improves or maintains health-related QOL (Quality of Life) compared with that for chemotherapy, and might represent a new frst-line standard of care for PD-L1-expressing, advanced NSCLC.
-The primary endpoint, progression-free survival (by Response Evaluation Criteria in Solid Tumors [RECIST] version 1.1 per blinded independent central review), was signifcantly longer with pembrolizumab than with chemotherapy.</p>
-<h4 id="nivolumab-plus-ipilimumab-in-lung-cancer-with-a-high-tumor-mutational-burden">Nivolumab plus Ipilimumab in Lung Cancer with a High Tumor Mutational Burden.</h4>
-<h4 id="在高tmb的肺癌患者中nivolumab加ipilimumab的治疗效果">在高TMB的肺癌患者中Nivolumab加Ipilimumab的治疗效果</h4>
-<p>Progression-free survival among patients with a high tumor mutational burden was significantly longer with nivolumab plus ipilimumab than with chemotherapy.
-The 1-year progression-free survival rate was 42.6% with nivolumab plus ipilimumab versus 13.2% with chemotherapy, and the median progression-free survival was 7.2 months (95% confidence interval [CI], 5.5 to 13.2) versus 5.5 months (95% CI, 4.4 to 5.8) (hazard ratio for disease progression or death, 0.58; 97.5% CI, 0.41 to 0.81; P&lt;0.001).
-The objective response rate was 45.3% with nivolumab plus ipilimumab and 26.9% with chemotherapy.
-The rate of grade 3 or 4 treatment-related adverse events was 31.2% with nivolumab plus ipilimumab and 36.1% with chemotherapy.
-简单说明：
-高TMB中的 Nivolumab 加 Ipilimumab组的PFS更长，一年后的生存率也比化疗组的要高，反应率也高很多，治疗相关的不良反应比化疗要少，但是比单纯的Nivolumab治疗要多。
-Progression-free survival was significantly longer with first-line nivolumab plus ipilimumab than with chemotherapy among patients with NSCLC and a high tumor mutational burden, irrespective of PD-L1 expression level.
-The results validate the benefit of nivolumab plus ipilimumab in NSCLC and the role of tumor mutational burden as a biomarker for patient selection.</p>
-<h4 id="updated-analysis-of-keynote-024-pembrolizumab-versus-platinum-based-chemotherapy-for-advanced-non-small-cell-lung-cancer-with-pd-l1-tumor-proportion-score-of-50-or-greater">Updated Analysis of KEYNOTE-024: Pembrolizumab Versus Platinum-Based Chemotherapy for Advanced Non-Small-Cell Lung Cancer With PD-L1 Tumor Proportion Score of 50% or Greater.</h4>
-<p>Median OS was 30.0 months (95% CI, 18.3 months to not reached) with pembrolizumab and 14.2 months (95% CI, 9.8 to 19.0 months) with chemotherapy (hazard ratio, 0.63; 95% CI, 0.47 to 0.86).
-Treatment-related grade 3 to 5 adverse events were less frequent with pembrolizumab compared with chemotherapy (31.2% v 53.3%, respectively).
-With prolonged follow-up, first-line pembrolizumab monotherapy continues to demonstrate an OS benefit over chemotherapy in patients with previously untreated, advanced NSCLC without EGFR/ALK aberrations, despite crossover from the control arm to pembrolizumab as subsequent therapy.
-<img src="https://peerpoll.github.io//post-images/1571276250210.png" alt="PD-L1药物实验结果统计"></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[python数据分析]]></title>
-        <id>https://peerpoll.github.io//post/python-shu-ju-fen-xi</id>
-        <link href="https://peerpoll.github.io//post/python-shu-ju-fen-xi">
-        </link>
-        <updated>2019-10-11T02:59:56.000Z</updated>
-        <content type="html"><![CDATA[<h4 id="魔术命令只在ipython">魔术命令(只在IPython)</h4>
-<p>%timeit : 测量任何Python语句，例如矩阵乘法，的执行时间
-%magic: 显示魔术命令的详细文档
-%pwd:查看当前目录
-<img src="https://peerpoll.github.io//post-images/1570763249296.jpg" alt="魔术命令"></p>
-<p>用isinstance函数检查对象是某个类型的实例</p>
-<blockquote>
-<p>isinstance(5,	int)
-isinstance可以用于类型元组，检查对象的类型是否在元组中</p>
-</blockquote>
-<p>enumerate函数，可以返回(i,	value)元组序列
-sorted函数可以从任意序列的元素返回一个新的排好序的列表
-sorted函数可以接受和sort相同的参数</p>
-<blockquote>
-<p>sorted(iterable[, cmp[, key[, reverse]]])        iterable.sort(cmp[, key[, reverse]])
-a.sort()会改变原本a中的排序
-sorted(a) 不会改变原本a的排序，会输出a排序后的结果</p>
-</blockquote>
-<p>zip可以将多个列表、元组或其它序列成对组合成一个元组列表
-reversed可以从后向前迭代一个序列，将列表反过来</p>
-<p>update可以将一个字典与另一个融合</p>
-<h3 id="numpy">Numpy</h3>
-<p>NumPy的ndarray：多维数组对象</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[R语言数据分析]]></title>
-        <id>https://peerpoll.github.io//post/r-yu-yan-shu-ju-fen-xi</id>
-        <link href="https://peerpoll.github.io//post/r-yu-yan-shu-ju-fen-xi">
-        </link>
-        <updated>2019-10-11T01:46:52.000Z</updated>
-        <content type="html"><![CDATA[<p>install.packages(&quot;tidyverse&quot;)
-library(tidyverse)</p>
-<h2 id="1基础图形绘制">1.基础图形绘制</h2>
-<pre><code>ggplot(data=mpg,aes(x=displ,y=hwy))+geom_point( )
-ggplot(data=mpg,aes(x=displ,y=hwy))###绘制出一个空白的画布
-geom_point()###绘制所需的图形格式 point为点图
-</code></pre>
-<p>根据分类着色 colour 空心形状（0~14）的边界颜色由color 决定；
-实心形状（15~20）的填充颜色由 color 决定；填充形状（21~24）的边界颜色由 color 决定,填充颜色由 fill 决定</p>
-<blockquote>
-<p>ggplot(data=mpg,aes(x=displ,y=hwy,colour=class))+geom_point( )
-##设置透明度  alpha
-ggplot(data = mpg) +geom_point(mapping = aes(x = displ, y = hwy, alpha = class))
-##设置形状  shape  ggplot2 只能同时使用 6 种形状
-ggplot(data = mpg) +geom_point(mapping = aes(x = displ, y = hwy, shape = class))</p>
-</blockquote>
-<p>####分面  facet_wrap() ~ 分面展示</p>
-<blockquote>
-<p>ggplot(data = mpg) +geom_point(mapping = aes(x = displ, y = hwy,color=class)) +facet_wrap(~ class, nrow = 2)</p>
-</blockquote>
-<p>###两个变量分面 facet_grid()  公式包含由 ~ 隔开的两个变量名</p>
-<blockquote>
-<p>ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy)) + facet_grid(drv ~ cyl)
-###不想在行或列的维度进行分面，你可以使用 . 来代替变量名
-ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy)) + facet_grid(drv ~ .)</p>
-</blockquote>
-<p>###绘制光滑的曲线图  geom_smooth()  linetype确定图形形状</p>
-<blockquote>
-<p>ggplot(data = mpg) +geom_smooth(mapping = aes(x = displ, y = hwy))</p>
-</blockquote>
-<p>##同一张图中显示多个几何对象</p>
-<pre><code>ggplot(data = mpg,mapping = aes(x = displ, y = hwy)) +
-  geom_point(aes(color=class) )+
-  geom_smooth()
-</code></pre>
-<pre><code>demo &lt;- tribble(
-  ~a, ~b,
-  &quot;bar_1&quot;, 20,
-  &quot;bar_2&quot;, 30,
-  &quot;bar_3&quot;, 40
-)
-</code></pre>
-<p>###绘制住柱状图  geom_bar() + stat=&quot;identity&quot;</p>
-<pre><code>ggplot(data = demo) +
-  geom_bar(
-    mapping = aes(x = a, y = b), stat = &quot;identity&quot;
-  )
-</code></pre>
-<p>###强调统计变换  stat_summary()</p>
-<pre><code>ggplot(data = diamonds) +
-  stat_summary(
-    mapping = aes(x = cut, y = depth),
-    fun.ymin = min,
-    fun.ymax = max,
-    fun.y = median
-  )
-</code></pre>
-<p>#position = &quot;fill&quot; 条形图可以比较各组间的比例：</p>
-<pre><code>ggplot(data = diamonds) +
-  geom_bar(
-    mapping = aes(x = cut, fill = clarity),
-    position = &quot;fill&quot;
-  )
-</code></pre>
-<p>#position = &quot;dodge&quot; 每组中的条形依次并列放置</p>
-<pre><code>ggplot(data = diamonds) +
-  geom_bar(
-    mapping = aes(x = cut, fill = clarity),
-    position = &quot;dodge&quot;
-  )
-</code></pre>
-<p>#coord_flip() 函数可以交换 x 轴和 y 轴</p>
-<pre><code>ggplot(data = mpg, mapping = aes(x = class, y = hwy)) +
-  geom_boxplot()
-ggplot(data = mpg, mapping = aes(x = class, y = hwy)) +
-  geom_boxplot() +
-  coord_flip()
-</code></pre>
-<p>#coord_quickmap() 函数可以为地图设置合适的纵横比</p>
-<pre><code>ggplot(map_data(&quot;nz&quot;), aes(long, lat, group = group)) +
-  geom_polygon(fill = &quot;white&quot;, color = &quot;black&quot;) +
-  coord_quickmap()
-</code></pre>
-<p>#coord_polar() 函数使用极坐标系 将堆叠式条形图转换为饼图</p>
-<pre><code>bar &lt;- ggplot(data = diamonds) +
-  geom_bar(
-    mapping = aes(x = cut, fill = cut),
-    show.legend = FALSE,
-    width = 1
-  )+theme(aspect.ratio = 1) +labs(x = NULL, y = NULL)
-bar + coord_flip()
-bar + coord_polar()
-
-ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
-  geom_point() +
-  geom_abline() +
-  coord_fixed()
-</code></pre>
-<pre><code>#ggplot(data = &lt;DATA&gt;) +
-#   &lt;GEOM_FUNCTION&gt;(
-#     mapping = aes(&lt;MAPPINGS&gt;),
-#     stat = &lt;STAT&gt;,
-#     position = &lt;POSITION&gt;
-#   ) +
-#   &lt;COORDINATE_FUNCTION&gt; +
-#   &lt;FACET_FUNCTION&gt;
-</code></pre>
-<blockquote>
-<p>this_is_a_really_long_name = 2.5
-#命令窗口中输入“this”，然后按 Ctrl+ ↑。这样就可以列出所有输入过的以“this”开头的命令。使用箭头键上下移动，
-#然后按回车键重新输入该命令。将 2.5 修改为 3.5，并按回车键。</p>
-</blockquote>
-<blockquote>
-<p>(y =seq(1, 10, length.out = 5))
-#括号将赋值语句括起来就可以了，这样相当于连续执行赋值语句和“输出到屏幕”的操作</p>
-</blockquote>
-<p>###dplyr进行数据转换  dplyr学习
-library(dplyr)
-library(nycflights13)###数据来源
-#按值筛选观测（filter()）
-#对行进行重新排序（arrange()）
-#按名称选取变量（select()）
-#使用现有变量的函数创建新变量（mutate()）
-#将多个值总结为一个摘要统计量（summarize()）
-##这些函数都可以和 group_by() 函数联合起来使用，让其从在整个数据集上操作变为在每个分组上分别操作。</p>
-<p>##前面 5 个函数的工作方式都是相同的。
-##(1) 第一个参数是一个数据框。
-##(2) 随后的参数使用变量名称（不带引号）描述了在数据框上进行的操作。
-##(3) 输出结果是一个新数据框</p>
-<p>#filter() 函数可以基于观测的值筛选出一个观测子集</p>
-<blockquote>
-<p>jan1 = filter(flights,month==1,day==1)</p>
-</blockquote>
-<p>#比较浮点数是否相等时，不能使用 ==，而应该使用 near()</p>
-<blockquote>
-<p>near(sqrt(2) ^ 2, 2)</p>
-</blockquote>
-<p>#arrange()排列行  排序  desc() 可以按列进行降序排序</p>
-<blockquote>
-<p>arrange(flights, desc(arr_delay))</p>
-</blockquote>
-<p>#select()选择列</p>
-<blockquote>
-<p>select(flights, year, month, day)
-#starts_with(&quot;abc&quot;)：匹配以“abc”开头的名称。
-#ends_with(&quot;xyz&quot;)：匹配以“xyz”结尾的名称。
-#contains(&quot;ijk&quot;)：匹配包含“ijk”的名称。
-#matches(&quot;(.)\1&quot;)：选择匹配正则表达式的那些变量。这个正则表达式会匹配名称中有重复字符的变量。
-#num_range(&quot;x&quot;, 1:3)：匹配 x1、 x2 和 x3。
-#select() 函数和 everything() 辅助函数结合起来使用。当想要将几个变量移到数据框开头时
-select(flights, time_hour, air_time, everything())</p>
-</blockquote>
-<p>###mutate() 总是将新列添加在数据集的最后</p>
-<pre><code>	flights_sml = select(flights,
-                      year:day,
-                      ends_with(&quot;delay&quot;),
-                      distance,
-                      air_time
-)
-mutate(flights_sml,
-       gain = arr_delay - dep_delay,
-       speed = distance / air_time * 60
-)
-</code></pre>
-<p>#累加和、累加积、累加最小值和累加最大值的函数：
-#cumsum(),cumprod()、commin() 和 cummax()； cummean() 函数以计算累加均值
-#计算滚动聚合（即滚动窗口求和），那么可以尝试使用 RcppRoll 包
-#summarize()进行分组摘要  它可以将数据框折叠成一行</p>
-<blockquote>
-<p>summarize(flights, delay = mean(dep_delay, na.rm = TRUE))
-by_day = group_by(flights, year, month, day)
-###group_by()  进行分组
-summarize(by_day, delay = mean(dep_delay, na.rm = TRUE))</p>
-</blockquote>
-<p>#使用管道， %&gt;%
-#聚合操作中包括一个计数（n()）或非缺失值的计数（sum(!is_na())）</p>
-<pre><code>	delays &lt;- flights %&gt;%
-  group_by(dest) %&gt;%
-  summarize(
-    count = n(),
-    dist = mean(distance, na.rm = TRUE),
-    delay = mean(arr_delay, na.rm = TRUE)
-  ) %&gt;%
-  filter(count &gt; 20, dest != &quot;HNL&quot;)
-</code></pre>
-<p>#通过 dplyr::count() 和 ggplot2::cut_width() 函数的组合来手动计算 连续值分组统计</p>
-<blockquote>
-<p>diamonds %&gt;% count(cut_width(carat, 0.5))</p>
-</blockquote>
-<p>#binwidth  设置连续变量分组的图形间隔</p>
-<blockquote>
-<p>smaller =diamonds %&gt;% filter(carat &lt; 3)
-ggplot(data = smaller, mapping = aes(x = carat)) +geom_histogram(binwidth = 0.1)</p>
-</blockquote>
-<p>#叠加多个直方图，使用 geom_freqploy() 函数</p>
-<blockquote>
-<p>ggplot(data = smaller, mapping = aes(x = carat, color = cut)) + geom_freqpoly(binwidth = 0.1)</p>
-</blockquote>
-<p>#coord_cartesian() 函数将 y 轴靠近 0 的部分放大</p>
-<blockquote>
-<p>ggplot(diamonds) +geom_histogram(mapping = aes(x = y), binwidth = 0.5) +coord_cartesian(ylim = c(0, 50))</p>
-</blockquote>
-<p>#两个分类变量间的相关变动进行可视化表示  geom_count() 函数</p>
-<blockquote>
-<p>ggplot(data = diamonds) +geom_count(mapping = aes(x = cut, y = color))</p>
-</blockquote>
-<p>#连续值绘制箱线图  cut_width是dplyr中的函数  按宽度分类</p>
-<blockquote>
-<p>ggplot(data = smaller, mapping = aes(x = carat, y = price)) +geom_boxplot(mapping = aes(group = cut_width(carat, 0.1)))</p>
-</blockquote>
-<p>#近似地显示每个分箱中的数据点的数量，此时可以使用 cut_number() 函数  按数量分类</p>
-<blockquote>
-<p>ggplot(data = smaller, mapping = aes(x = carat, y = price)) +geom_boxplot(mapping = aes(group = cut_number(carat, 20)))</p>
-</blockquote>
-<p>###根据数据拟合模型</p>
-<pre><code>library(modelr)
-mod = lm(log(price) ~ log(carat), data = diamonds)
-diamonds2 = diamonds %&gt;% add_residuals(mod) %&gt;% mutate(resid = exp(resid))
-ggplot(data = diamonds2) +geom_point(mapping = aes(x = carat, y = resid))
-</code></pre>
-<p>##管道中使用这些提取操作，需要使用特殊的占位符</p>
-<blockquote>
-<p>df %&gt;% .$x
-#&gt; [1] 0.434 0.395 0.548 0.762 0.254
-df %&gt;% .[[&quot;x&quot;]]
-#&gt; [1] 0.434 0.395 0.548 0.762 0.254</p>
-</blockquote>
-<p>#read_csv() 读取逗号分隔文件、 read_csv2() 读取分号分隔文件（这在用 , 表示小数位
-#的国家非常普遍）、 read_tsv() 读取制表符分隔文件、 read_delim() 可以读取使用任意
-#分隔符的文件。</p>
-<p>#read_fwf() 读取固定宽度的文件。既可以使用 fwf_widths() 函数按照宽度来设定域，也可
-#以使用 fwf_positions() 函数按照位置来设定域。 read_table() 读取固定宽度文件的一种常
-#用变体，其中使用空白字符来分隔各列</p>
-<p>#有时文件开头会有好几行元数据。你可以使用 skip = n 来跳过前 n 行；或者使用
-#comment = &quot;#&quot; 来丢弃所有以 # 开头的行</p>
-<p>#parse_logical() 和 parse_integer() 函数分别解析逻辑值和整数。因为这两个解析函数
-#基本不会出现问题，所以我们不再进行更多介绍。
-#parse_double() 是严格的数值型解析函数， parse_number() 则是灵活的数值型解析函数。
-#这两个函数要比你预想的更复杂，因为世界各地书写数值的方式不尽相同。
-#parse_character() 函数似乎太过简单，甚至没必要存在。但一个棘手的问题使得这个
-#函数变得非常重要：字符编码。
-#parse_factor() 函数可以创建因子， R 使用这种数据结构来表示分类变量，该变量具有
-#固定数目的已知值。
-#parse_datetime()、 parse_date() 和 parse_time() 函数可以解析不同类型的日期和时间。
-#它们是最复杂的，因为有太多不同的日期书写形式。</p>
-<p>#semi_join(x, y)： 保留 x 表中与 y 表中的观测相匹配的所有观测
-#anti_join(x, y)： 丢弃 x 表中与 y 表中的观测相匹配的所有观测
-#intersect(x, y) 返回既在 x 表，又在 y 表中的观测。  取交集
-#union(x, y) 返回 x 表或 y 表中的唯一观测。         取并集
-#setdiff(x, y) 返回在 x 表，但不在 y 表中的观测    取差异</p>
-<p>#使用stringr处理字符串
-library(tidyverse)
-library(stringr)</p>
-<p>#str_c() 函数是向量化的，它可以自动循环短向量，使得其与最长的向量具有相同的长度</p>
-<blockquote>
-<p>str_c(&quot;prefix-&quot;, c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;), &quot;-suffix&quot;)
-#&gt; [1] &quot;prefix-a-suffix&quot; &quot;prefix-b-suffix&quot; &quot;prefix-c-suffix&quot;</p>
-</blockquote>
-<pre><code>name = &quot;Hadley&quot;
-time_of_day = &quot;morning&quot;
-birthday = FALSE
-str_c(
-  &quot;Good &quot;, time_of_day, &quot; &quot;, name,
-  if (birthday) &quot; and HAPPY BIRTHDAY&quot;,
-  &quot;.&quot;
-)
-</code></pre>
-<p>#&gt; [1] &quot;Good morning Hadley.
-#使用lubridate处理日期和时间
-#使用magrittr进行管道操作
-#以下三种情况不适用管道符操作
-#1.操作步骤超过 10（参考值）个。这种情况下，应该使用有意义的变量来保存中间结果。
-#2.有多个输入和输出。如果需要处理的不是一个基本对象，而是组合在一起的两个或多个对象，就不要使用管道
-#3.操作步骤构成一张具有复杂依赖关系的有向图</p>
-<p>#%$%  如果使用的函数不是基于数据框的（也就是说，你必须传给这些函数一个独立的向量，
-#不能传给它们数据框或基于数据框求值的表达式）</p>
-<blockquote>
-<p>mtcars %$% cor(disp, mpg)
-#使用purrr实现迭代
-#seq_along(df) &lt;===&gt; seq_along(df)
-#最好用 seq_along(df)
-#map() 用于输出列表；
-#map_lgl() 用于输出逻辑型向量；
-#map_int() 用于输出整型向量；
-#map_dbl() 用于输出双精度型向量；
-#map_chr() 用于输出字符型向量</p>
-</blockquote>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[利用dNdScv从TCGA中找显著突变基因(SMGs)]]></title>
-        <id>https://peerpoll.github.io//post/li-yong-dndscv-cong-tcga-zhong-zhao-xian-zhu-tu-bian-ji-yin-smgs</id>
-        <link href="https://peerpoll.github.io//post/li-yong-dndscv-cong-tcga-zhong-zhao-xian-zhu-tu-bian-ji-yin-smgs">
-        </link>
-        <updated>2019-08-30T10:16:48.000Z</updated>
-        <content type="html"><![CDATA[<ol>
-<li>从TCGA上下载mutect处理后的突变数据 maf 格式的文件 <strong>TCGA.xxxx.maf</strong></li>
-<li>从github上安装 dNdScv 包(<a href="https://github.com/im3sanger/dndscv">dndscv-master.zip</a>)，也可以从github上下载然后用R进行本地安装，并测试安装是否正确可用。默认是用的hg19版本的数据，同时也提供了hg38版本的数据，先从github上下载hg38版本的文件(<a href="https://github.com/im3sanger/dndscv_data/tree/master/data">dndscv_data-master.zip</a>)，<strong>（refdb中给上参考基因组的绝对路径）</strong></li>
-</ol>
-<pre><code>dndsout = dndscv(mutations, refdb=&quot;D:/xx/xx/RefCDS_human_GRCh38.p12.rda&quot;, cv=NULL)
-</code></pre>
-<ol start="3">
-<li>dNdScv的输入文件需要5列样本(sampleID  chr   pos  ref  mut)，从maf中的将需要的突变信息进行提取，将突变的(sampleID  chr   pos  ref  mut)信息整合到 xxx.txt 中（hg19的chr格式只要具体的染色体，如 1,2,3...M,hg38的chr格式需要具体的 如：chr1,chr2...chrM）</li>
-<li>按照dNdScv的<a href="http://htmlpreview.github.io/?http://github.com/im3sanger/dndscv/blob/master/vignettes/dNdScv.html">指导文件</a>，运行代码</li>
-</ol>
-<pre><code>library(&quot;dndscv&quot;)
-data(&quot;dataset_simbreast&quot;, package=&quot;dndscv&quot;)
-dndsout = dndscv(mutations)
-sel_cv = dndsout$sel_cv
-print(head(sel_cv), digits = 3)
-signif_genes = sel_cv[sel_cv$qglobal_cv&lt;0.1, c(&quot;gene_name&quot;,&quot;qglobal_cv&quot;)]
-rownames(signif_genes) = NULL
-print(signif_genes)
-</code></pre>
-<p>具体介绍看指导界面</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Snakemake学习]]></title>
-        <id>https://peerpoll.github.io//post/snakemake-xue-xi</id>
-        <link href="https://peerpoll.github.io//post/snakemake-xue-xi">
-        </link>
-        <updated>2019-07-12T06:32:29.000Z</updated>
-        <content type="html"><![CDATA[<p><strong>Snakemake Rule</strong>
-<strong>rule sort(名字):</strong>
-<strong>input:</strong> 'xxx.txt'#(输入文件的文件名)
-<strong>output:</strong> 'xxxxx.txt'##(处理后的结果文件名)
-<strong>shell:</strong>
-'sort {input}&gt;{output}'  ###相应需要运行的代码   python(<strong>run:</strong>)  R(<strong>run:R()</strong>)</p>
-<h5 id="建议安装anaconda方便使用">建议安装<a href="https://www.anaconda.com/downloads">anaconda</a>，方便使用</h5>
-<p>利用anaconda创建一个专属环境</p>
-<pre><code>conda create -n snakemake python=3*
-</code></pre>
-<p>激活环境</p>
-<pre><code>source activate snakemake
-</code></pre>
-<p>安装snakemake
-建议先安装 <a href="https://quantstack.net/mamba.html">mamba</a>  能够快速解决环境问题</p>
-<pre><code>conda install mamba -c conda-forge
-再安装snakemake
-mamba install snakemake
-</code></pre>
-<p>关闭环境</p>
-<pre><code>source deactivate
-</code></pre>
-<p>基本方法是这样的，根据需要编写自己的代码脚本</p>
-<p>写完代码脚本之后
-运行snakemake脚本</p>
-<pre><code>snakemake -s snakefile.py
-</code></pre>
-<p>断点运行</p>
-<pre><code>snakemake -s snakefile.py --rerun-incomplete
-</code></pre>
-<p>主要参考孟叔的<a href="https://www.bilibili.com/video/av45832590/?p=1">使用SnakeMake搭建生信流程</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[python数据处理常使用的模块及介绍]]></title>
-        <id>https://peerpoll.github.io//post/python-shu-ju-chu-li-chang-shi-yong-de-mo-kuai-ji-jie-shao</id>
-        <link href="https://peerpoll.github.io//post/python-shu-ju-chu-li-chang-shi-yong-de-mo-kuai-ji-jie-shao">
-        </link>
-        <updated>2019-07-12T01:24:50.000Z</updated>
-        <content type="html"><![CDATA[<ol>
-<li><strong>numpy</strong> 高效的处理数据、提供数组支持，是许多模块的基础，如：pandas、scipy、matplotlib</li>
-<li><strong>pandas</strong> 主要用于进行数据探索和数据分析</li>
-<li><strong>matplotlib</strong> 用于作图，进行可视化</li>
-<li><strong>scipy</strong> 进行数值计算，支持矩阵运算，还有许多高等数据处理，比如积分、傅里叶变换、微分方程求解</li>
-<li><strong>statsmodels</strong> 主要用于统计分析</li>
-<li><strong>Gensim</strong> 用于文本挖掘</li>
-<li><strong>sklearn</strong> 用于机器学习</li>
-<li><strong>keras</strong> 用于深度学习</li>
-</ol>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[pthon中的正则表达式]]></title>
-        <id>https://peerpoll.github.io//post/pthon-zhong-de-zheng-ze-biao-da-shi</id>
-        <link href="https://peerpoll.github.io//post/pthon-zhong-de-zheng-ze-biao-da-shi">
-        </link>
-        <updated>2019-07-10T02:06:24.000Z</updated>
-        <content type="html"><![CDATA[<p>正则可以用来快速检索文本，实现一些替换文本的操作。</p>
-<pre><code>#正则表达式
-import re
-a='C|C++|Java|C#|Python|Javascript'
-re.findall('Python',a)###findall 直接在字符串中查找所有关键字
-
-##使用规则查找关键词，规则是正则表达式的灵魂
-b='C0C++7Java8C#9Python3Javascript'
-##查找其中的数字
-r=re.findall(&quot;\d&quot;,b)###\d 查找数字
-print(r)
-#'Python'是普通字符  '\d'是元字符
-#元字符根据使用可以现查现用
-print(re.findall(&quot;\D&quot;,b)) ###\D查找非数字字符
-
-s='abc,acc,adc,aec,afc,ahc'
-print(re.findall('a[cf]c',s))### 使用[]实现或操作
-print(re.findall('a[^cf]c',s)) ###使用^实现 取反 非  操作
-print(re.findall('a[c-f]c',s))  ###实现取一系列字符操作
-
-#概括字符集
-#\d \D \w 单词字符 [A-Za-z0-9_]   \W  匹配非单词字符
-#\s 空白字符 “ ” \t \n 
-#. 换行符之外的所有字符
-
-#数量词
-print(re.findall('[a-z]{3,6}',s))  ##{n,m} 匹配n-m个字符 
-m='pytho0python1pythonn2'
-#* 匹配*号前的字符 0次或者无限多次
-print(re.findall('python*',m))
-#+ 匹配+号前的字符 1次或者无限多次
-print(re.findall('python+',m))
-#? 匹配？号前的字符 0次或者1次
-print(re.findall('python?',m))
-
-
-#贪婪和非贪婪
-#贪婪就是一直匹配到不满足条件的字符
-#非贪婪  在匹配字符后加?
-print(re.findall('[a-z]{3,6}?',s))
-
-#边界匹配
-qq='1035655101'
-#4~8
-print(re.findall('^\d{4,8}$',qq))  ###匹配规则前加^规则后加$ 进行完全匹配   ^字符固定起始  $字符固定结尾
-x='pythonpythonpythonpythonss'
-print(re.findall('(python){2}',x)) ###查找一个完整的字符多次 ()表示并且
-
-###findall中的flags参数  
-### re.I 可以不区分大小写匹配
-lan='PythonC#\nJavaPHP'
-print(re.findall('c#',lan,re.I))   ### re.I 可以不区分大小写匹配  
-print(re.findall('c#.{1}',lan, re.I | re.S))    ###re.S 表示 . 匹配任意字符，包括换行符  |表示两种规则都适用
-
-##sub函数  查找并进行替换
-lan='PythonC#JavaPHPC#'
-print(re.sub('C#',&quot;GO&quot;,lan,count=0))  ##count=0时对所有满足的字符进行替换
-print(re.sub('C#',&quot;GO&quot;,lan,count=1))  ##count=1时对替换固定数目
-##使用replace可以进行简单的替换
-print(lan.replace(&quot;C#&quot;,&quot;GO&quot;))
-
-##函数形式进行替换
-def convert(value):
-    #print(value)
-    matched=value.group()
-    return '!!'+matched+'!!'
-
-print(re.sub('C#',convert,lan))
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[网页版blast构建]]></title>
-        <id>https://peerpoll.github.io//post/wang-ye-ban-blast-gou-jian</id>
-        <link href="https://peerpoll.github.io//post/wang-ye-ban-blast-gou-jian">
-        </link>
-        <updated>2019-07-01T12:44:45.000Z</updated>
-        <content type="html"><![CDATA[<h5 id="因为构建网站功能需要搭建一个blast功能主要是利用了ncbi提供的blast进行构建-主要工作如下">因为构建网站功能需要搭建一个blast功能，主要是利用了NCBI提供的blast+进行构建。主要工作如下：</h5>
-<h4 id="1下载blast">1.下载blast+</h4>
-<h4 id="blast工具"><a href="ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/">blast+工具</a> 下载所需要的版本</h4>
-<h4 id="2根据需要的参数设置网页的界面">2.根据需要的参数设置网页的界面</h4>
-<h4 id="相关的参数详情">相关的参数详情：</h4>
-<ul>
-<li>序列输入  =》 -query (file_in) 输入你要查找的序列，将上传的序列文件名放进去，最好是绝对路径</li>
-<li>查询范围  =》 -query_loc (n-x) 需要查找的位置（start-stop） ps:start/stop输入是数字型</li>
-<li>查询类型  =》 -task (string) 选择查询的类型，blastn下有好几种类型&quot;blastn&quot;,&quot;blastn-short&quot;,&quot;megablast&quot;各有优缺</li>
-<li>保留阈值  =》 -evalue 保留匹配的阈值，自己设定，一般默认是10</li>
-<li>匹配长度  =》 -word_size (integer,&gt;=4) 设置最佳匹配长度</li>
-<li>匹配得分  =》 -reward (int,&gt;=0) 匹配上的得分</li>
-<li>错配罚分  =》 -penalty (int,&gt;=0) 错配的罚分</li>
-<li>open gap  =》 -gapopen(int) open gap 分数</li>
-<li>extend gap =》 -gapextend(int) extend gap分数</li>
-<li>筛选    =》 -dust(str) &quot;yes&quot;or&quot;no&quot; 筛选低复杂区域</li>
-<li>结果输出  =》 -outfmt 输出结果格式；我用的是 -6 用&quot;\t&quot;格式分割  -7 用&quot;\t&quot;分割，包含注释；输出还有一些列格式，没怎么用到，所以不赘述</li>
-<li>-6 输出一般是12列
-Queryid（查询id）　　Subject id（比对上的id） 　　identity（配对一致性%）　　alignment length(比对上的区域长度)　　mismatches(错配数)
-gap open　　q.start（匹配上的查询序列起点）　　q.end（匹配上查询序列终点）　　s.start(匹配上目标序列的起点)　　s.end(匹配上目标序列的终点)       e-value　　bitscore(比对上的的得分)</li>
-</ul>
-<h4 id="创建自己的基因库">创建自己的基因库</h4>
-<blockquote>
-<p>载入自己的需要的fa数据作为库 blastn 只要nucl库
-命令：makeblastdb.exe -in 基因组genomic.fna -parse_seqids -hash_index -dbtype nucl -out 自定义库名</p>
-</blockquote>
-<h4 id="利用脚本对上传的数据进行处理">利用脚本对上传的数据进行处理</h4>
-<p><strong>我使用的是python脚本，linux上可以直接运行命令</strong></p>
-<pre><code>&quot;&quot;&quot;blastn -query %s  -db %s -out %s -task %s -evalue %d -word_size %d -reward %d -penalty %d -gapopen %d -gapextend %d -dust %s -outfmt 6 &quot;&quot;&quot;%(inname,db,outname,task,evalue,word_size,reward,penalty,gapopen,gapextend,dust)
-</code></pre>
-<h4 id="对获取的结果可以进行美化可以使用blasterjs对结果展示惊醒美化">对获取的结果可以进行美化，可以使用blasterJS对结果展示惊醒美化</h4>
+        <updated>2018-12-11T16:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+<!-- more -->
+<p><a href="https://github.com/getgridea/gridea">Github</a><br>
+<a href="https://gridea.dev/">Gridea 主页</a><br>
+<a href="http://fehey.com/">示例网站</a></p>
+<h2 id="特性">特性👇</h2>
+<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
+<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
+<p>🏷️  你可以对文章进行标签分组</p>
+<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
+<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
+<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
+<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
+<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
+<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
+<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
+<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
+<p>未来，它一定会成为你离不开的伙伴</p>
+<p>尽情发挥你的才华吧！</p>
+<p>😘 Enjoy~</p>
 ]]></content>
     </entry>
 </feed>
