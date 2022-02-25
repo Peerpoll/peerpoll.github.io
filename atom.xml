@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://peerpoll.github.io/</id>
     <title>Gridea</title>
-    <updated>2022-02-18T13:11:11.666Z</updated>
+    <updated>2022-02-25T09:46:14.691Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://peerpoll.github.io/"/>
     <link rel="self" href="https://peerpoll.github.io/atom.xml"/>
@@ -66,6 +66,32 @@ docker container stop  来停止容器</p>
 <p>docker container rm  杀死容器</p>
 <pre><code class="language-shell">docker container rm zealous_bardeen
 </code></pre>
+<h1>镜像</h1>
+1.拉取镜像
+安装完docker之后，需要通过 docker image pull 手动拉取镜像
+<pre><code class="language-shell">docker image pull alpine:latest
+</code></pre>
+<p>默认情况下，镜像会从 Docker Hub 的仓库中拉取。docker image pull alpine:latest 命令会从 Docker Hub 的 alpine 仓库中拉取标签为 latest 的镜像。<br>
+Linux Docker 主机本地镜像仓库通常位于 /var/lib/docker/<storage-driver><br>
+如果没有在仓库名称后指定具体的镜像标签，则 Docker 会假设用户希望拉取标签为 latest 的镜像。</p>
+<p>2.镜像删除<br>
+可以通过 docker image rm 来删除镜像</p>
+<pre><code class="language-shell">docker image rm 02674b9cb179
+</code></pre>
+<p>通过镜像id来进行删除<br>
+删除操作会在当前主机上删除该镜像以及相关的镜像层。这意味着无法通过 docker image ls 命令看到删除后的镜像，并且对应的包含镜像层数据的目录会被删除。</p>
+<p>3.查看镜像细节<br>
+该命令完美展示了镜像的细节，包括镜像层数据和元数据。</p>
+<pre><code class="language-shell">docker image inspect
+</code></pre>
+<h1>容器</h1>
+常见容器使用命令：
+docker container run  启动容器
+docker container stop 停止容器
+docker container start 再次启动容器
+docker container rm    删除容器
+docker container exec  在运行状态的容器中，启动一个新进程
+docker container inspect  显示容器的配置细节和运行时信息
 ]]></content>
     </entry>
 </feed>
